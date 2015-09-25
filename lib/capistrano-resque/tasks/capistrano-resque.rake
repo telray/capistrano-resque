@@ -70,7 +70,7 @@ namespace :resque do
           number_of_workers.times do
             pid = "#{fetch(:resque_pid_path)}/resque_work_#{worker_id}.pid"
             within current_path do
-              execute :nohup, %{#{SSHKit.config.command_map[:rake]} RACK_ENV=#{rails_env} RAILS_ENV=#{rails_env} QUEUE="#{queue}" PIDFILE=#{pid} BACKGROUND=yes #{"VERBOSE=1 " if fetch(:resque_verbose)}INTERVAL=#{fetch(:interval)} #{"environment " if fetch(:resque_environment_task)}resque:work #{output_redirection}}
+              execute :nohup, %{RACK_ENV=#{rails_env} RAILS_ENV=#{rails_env} QUEUE="#{queue}" PIDFILE=#{pid} BACKGROUND=yes #{"VERBOSE=1 " if fetch(:resque_verbose)}INTERVAL=#{fetch(:interval)} #{"environment " if fetch(:resque_environment_task)}resque:work #{output_redirection}}
             end
             worker_id += 1
           end
